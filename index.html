@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>sheedigital — Content That Converts</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #c0000a;
+  --red-dark: #8a0007;
+  --red-light: #e8000c;
+  --wa-green: #25D366;
+  --white: #ffffff;
+  --off-white: #f8f5f2;
+  --gray: #e2e0dd;
+  --ink: #111111;
+  --muted: #888;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+.cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+  mix-blend-mode: multiply;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease, width 0.25s ease, height 0.25s ease, opacity 0.2s ease;
+  opacity: 0.5;
+}
+body:hover .cursor { opacity: 1; }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  mix-blend-mode: normal;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gray);
+}
+
+.nav-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--red); }
+
+.nav-cta {
+  background: var(--red);
+  color: var(--white) !important;
+  padding: 10px 24px;
+  font-size: 11px !important;
+  letter-spacing: 0.2em;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--red-dark) !important; color: var(--white) !important; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  padding-top: 80px;
+}
+
+.hero-left {
+  background: var(--red);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 64px 80px 72px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Big decorative letter */
+.hero-left::before {
+  content: 'S';
+  position: absolute;
+  bottom: -60px;
+  left: -20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 420px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards 0.2s;
+}
+
+.hero-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 5.5vw, 72px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--white);
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards 0.4s;
+}
+
+.hero-headline em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hero-sub {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.78);
+  max-width: 380px;
+  margin-bottom: 48px;
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards 0.6s;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards 0.8s;
+}
+
+.btn-primary {
+  background: var(--white);
+  color: var(--red);
+  padding: 16px 36px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-primary:hover { background: var(--off-white); transform: translateY(-2px); }
+
+.btn-ghost {
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: var(--white);
+  padding: 16px 36px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,1); transform: translateY(-2px); }
+
+.hero-right {
+  background: var(--off-white);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 80px 64px 80px 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Diagonal red stripe */
+.hero-right::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: var(--red);
+  transform: rotate(45deg);
+  opacity: 0.06;
+}
+
+.manifesto-block {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.9s;
+}
+
+.manifesto-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.manifesto-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--red);
+  opacity: 0.3;
+  max-width: 60px;
+}
+
+.manifesto-tier {
+  border-left: 2px solid var(--gray);
+  padding: 16px 0 16px 24px;
+  margin-bottom: 8px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.manifesto-tier:hover { border-color: var(--red); }
+
+.manifesto-tier::before {
+  content: attr(data-num);
+  position: absolute;
+  left: -10px;
+  top: 18px;
+  width: 18px; height: 18px;
+  background: var(--gray);
+  border-radius: 50%;
+  font-size: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0;
+  transition: background 0.3s, color 0.3s;
+}
+.manifesto-tier:hover::before { background: var(--red); color: white; }
+
+.tier-badge {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+.manifesto-tier:last-child .tier-badge { color: var(--red); }
+
+.tier-line {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.manifesto-tier:last-child .tier-line {
+  font-weight: 700;
+  color: var(--red);
+}
+
+.hero-stats {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding-top: 32px;
+  border-top: 1px solid var(--gray);
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards 1.1s;
+}
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--red);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* TICKER */
+.ticker-wrap {
+  background: var(--ink);
+  padding: 14px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ticker-track {
+  display: inline-block;
+  animation: ticker 28s linear infinite;
+}
+
+.ticker-track span {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  padding: 0 40px;
+}
+
+.ticker-track span.dot {
+  color: var(--red);
+  padding: 0;
+  font-size: 18px;
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* FEATURED BADGES */
+.featured-press {
+  background: var(--off-white);
+  padding: 60px 72px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  flex-wrap: wrap;
+}
+
+.featured-press-wrapper {
+  position: relative;
+  padding-top: 42px;
+  text-align: center;
+}
+
+.featured-press-wrapper.top-glance {
+  margin-top: 80px;
+  border-bottom: 1px solid var(--gray);
+}
+
+.featured-press-wrapper.top-glance .featured-press {
+  padding: 34px 72px;
+  gap: 28px;
+}
+
+.featured-press-wrapper.top-glance .featured-article {
+  padding: 10px;
+  max-width: 300px;
+  min-width: 220px;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.featured-press-wrapper.top-glance .featured-thumb {
+  width: 100%;
+  height: 180px;
+}
+
+.featured-press-wrapper.top-glance .featured-mini-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(11px, 2.8vw, 14px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-top: 10px;
+  padding: 0 4px 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.featured-press-wrapper::before {
+  content: 'FEATURED IN';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(9px, 2.2vw, 14px);
+  letter-spacing: clamp(0.08em, 0.5vw, 0.2em);
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.featured-article {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 30px;
+  background: var(--white);
+  border: 1px solid var(--gray);
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  max-width: 520px;
+  min-width: 340px;
+  flex: 1;
+}
+
+.featured-article:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+
+.featured-thumb {
+  width: 96px;
+  height: 124px;
+  background: var(--off-white);
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featured-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-info {
+  text-align: left;
+  flex: 1;
+  min-width: 200px;
+}
+
+.featured-outlet {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.featured-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+@media (max-width: 768px) {
+  .featured-press {
+    gap: 20px;
+    padding: 40px 24px;
+  }
+
+  .featured-press-wrapper.top-glance {
+    margin-top: 72px;
+  }
+
+  .featured-press-wrapper.top-glance .featured-press {
+    padding: 24px 24px;
+  }
+
+  .featured-press-wrapper.top-glance .featured-article {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .featured-press-wrapper.top-glance .featured-thumb {
+    height: 160px;
+  }
+
+  .featured-press-wrapper.top-glance .featured-mini-title {
+    margin-top: 8px;
+    letter-spacing: 0.1em;
+  }
+
+  .featured-article {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .featured-press-wrapper::before {
+    top: 10px;
+  }
+
+  .featured-title {
+    font-size: 16px;
+  }
+}
+
+/* WHO THIS IS FOR */
+.for-section {
+  padding: 120px 72px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.section-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 20px;
+}
+
+.section-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.section-headline em {
+  font-style: italic;
+  color: var(--red);
+}
+
+.section-body {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #555;
+  font-weight: 300;
+  margin-bottom: 36px;
+}
+
+.pain-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pain-list li {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 20px 24px;
+  background: var(--off-white);
+  border-left: 3px solid transparent;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.pain-list li:hover {
+  border-color: var(--red);
+  background: #fff5f5;
+}
+
+.pain-icon {
+  font-size: 18px;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.pain-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.pain-text strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 2px;
+  font-size: 15px;
+}
+
+/* WHAT YOU GET */
+.offer-section {
+  background: var(--red);
+  padding: 120px 72px;
+  position: relative;
+  overflow: hidden;
+}
+
+.offer-section::before {
+  content: 'FOCUS';
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 280px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+  letter-spacing: -0.05em;
+}
+
+.offer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 72px;
+}
+
+.offer-top .section-label { color: rgba(255,255,255,0.6); }
+.offer-top .section-headline { color: var(--white); margin-bottom: 0; }
+.offer-top .section-headline em { color: rgba(255,255,255,0.7); }
+
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.offer-card {
+  background: rgba(255,255,255,0.07);
+  padding: 40px 32px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: background 0.3s, transform 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.offer-card:hover {
+  background: rgba(255,255,255,0.13);
+  transform: translateY(-4px);
+}
+
+.offer-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 56px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.1);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.offer-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.offer-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.7);
+  font-weight: 300;
+}
+
+/* PROCESS / FOCUS FRAMEWORK */
+.framework-section {
+  padding: 120px 72px;
+  background: var(--off-white);
+}
+
+.framework-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.framework-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 72px;
+  align-items: end;
+}
+
+.focus-letters {
+  display: flex;
+  gap: 4px;
+}
+
+.focus-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 80px;
+  font-weight: 900;
+  color: var(--gray);
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.focus-letter.active,
+.focus-letter:hover {
+  color: var(--red);
+}
+
+.focus-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.focus-step {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 0;
+  border-top: 1px solid var(--gray);
+  padding: 24px 0;
+  cursor: pointer;
+  transition: padding 0.3s;
+}
+
+.focus-step:hover { padding-left: 12px; }
+
+.step-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--red);
+  line-height: 1;
+}
+
+.step-word {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.step-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* SOCIAL PROOF */
+.proof-section {
+  padding: 120px 72px;
+  background: var(--white);
+}
+
+.proof-header {
+  text-align: center;
+  margin-bottom: 72px;
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.proof-card {
+  padding: 40px 32px;
+  border: 1px solid var(--gray);
+  position: relative;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.proof-card:hover {
+  border-color: var(--red);
+  box-shadow: 4px 4px 0 var(--red);
+}
+
+.proof-quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 80px;
+  line-height: 0.6;
+  color: var(--red);
+  opacity: 0.15;
+  margin-bottom: 16px;
+}
+
+.proof-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.proof-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.proof-role {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+.proof-result {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: var(--red);
+  color: white;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  font-weight: 600;
+}
+
+/* CTA SECTION */
+.cta-section {
+  background: var(--ink);
+  padding: 140px 72px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: var(--red);
+  border-radius: 50%;
+  opacity: 0.08;
+  filter: blur(80px);
+}
+
+.cta-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 24px;
+}
+
+.cta-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 68px);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.cta-headline em {
+  font-style: italic;
+  color: var(--red);
+}
+
+.cta-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.55);
+  max-width: 480px;
+  margin: 0 auto 48px;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: var(--red);
+  color: var(--white);
+  padding: 20px 56px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+.cta-btn:hover { background: var(--red-light); transform: translateY(-3px); }
+
+.cta-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.cta-btn-wa {
+  background: var(--wa-green);
+  color: var(--white);
+}
+
+.cta-btn-wa:hover {
+  background: #1fb957;
+}
+
+.cta-btn-email {
+  background: transparent;
+  color: rgba(255,255,255,0.85);
+  border: 1.5px solid rgba(255,255,255,0.28);
+}
+
+.cta-btn-email:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--white);
+  border-color: rgba(255,255,255,0.6);
+}
+
+.cta-fine {
+  margin-top: 20px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.1em;
+}
+
+/* FEATURED ARTICLES CAROUSEL */
+.articles-section {
+  padding: 120px 72px;
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.articles-header {
+  text-align: center;
+  margin-bottom: 80px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.articles-header .section-label {
+  display: inline-block;
+}
+
+.articles-header .section-headline {
+  font-size: clamp(32px, 4vw, 56px);
+  margin-bottom: 16px;
+}
+
+.articles-header .section-body {
+  font-size: 16px;
+  color: #666;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.carousel-container {
+  position: relative;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 0;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  display: flex;
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.slide-image {
+  flex: 1;
+  height: 600px;
+  background: var(--off-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.carousel-slide:hover .slide-image img {
+  transform: scale(1.02);
+}
+
+.slide-content {
+  flex: 1;
+  padding: 48px 48px;
+  background: var(--ink);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 300px;
+  height: 300px;
+  background: var(--red);
+  border-radius: 50%;
+  opacity: 0.05;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30px, 30px); }
+}
+
+.slide-badge {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.slide-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1.25;
+  margin-bottom: 20px;
+  color: var(--white);
+}
+
+.slide-description {
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.74);
+  margin-bottom: 28px;
+  font-weight: 300;
+}
+
+.slide-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.1em;
+}
+
+.slide-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.slide-meta span::before {
+  content: '◆';
+  font-size: 8px;
+}
+
+.slide-meta span:first-child::before {
+  content: '';
+}
+
+.carousel-nav {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.carousel-btn {
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--white);
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-btn:hover {
+  background: var(--red);
+  border-color: var(--red);
+  transform: translateY(-2px);
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.dot.active {
+  background: var(--red);
+  transform: scale(1.2);
+}
+
+.dot:hover {
+  background: rgba(255,255,255,0.5);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .carousel-slide {
+    flex-direction: column;
+  }
+
+  .slide-image {
+    height: 300px;
+    order: 1;
+  }
+
+  .slide-content {
+    padding: 32px;
+    order: 2;
+    height: auto;
+  }
+
+  .slide-title {
+    font-size: 24px;
+  }
+
+  .carousel-nav {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .carousel-dots {
+    bottom: 20px;
+    left: 20px;
+  }
+
+  .slide-title {
+    font-size: 28px;
+  }
+}
+
+/* FOOTER */
+footer {
+  background: var(--red);
+  padding: 40px 72px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.footer-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--white); }
+
+.footer-copy {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.1em;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 60px 32px; min-height: 100vh; }
+  .for-section, .offer-section, .framework-section, .proof-section, .cta-section, footer {
+    padding: 80px 32px;
+  }
+  .for-section { grid-template-columns: 1fr; gap: 48px; }
+  .offer-grid { grid-template-columns: 1fr; }
+  .proof-grid { grid-template-columns: 1fr; }
+  .framework-header { grid-template-columns: 1fr; }
+  nav { padding: 20px 24px; }
+  .nav-links { display: none; }
+  footer { flex-direction: column; gap: 24px; text-align: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+  .offer-top { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .cta-actions { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">sheedigital</a>
+  <ul class="nav-links">
+    <li><a href="#for">Who It's For</a></li>
+    <li><a href="#framework">The Framework</a></li>
+    <li><a href="#articles">Featured</a></li>
+    <li><a href="#cta" class="nav-cta">Work With Me</a></li>
+  </ul>
+</nav>
+
+<!-- FEATURED PRESS -->
+<div class="featured-press-wrapper top-glance">
+  <div class="featured-press">
+    <a href="#articles" class="featured-article">
+      <div class="featured-thumb">
+        <img src="assets/images/newsarticle/temp_image_7D8E00B2-B2AF-4CC6-9110-AD3DE3513295.WEBP" alt="Business Daily - House Hunting" loading="lazy">
+      </div>
+      <p class="featured-mini-title">House Hunters Story</p>
+    </a>
+    <a href="#articles" class="featured-article">
+      <div class="featured-thumb">
+        <img src="assets/images/newsarticle/temp_image_BB32CB17-E199-4DF8-A853-674D2B16F6A6.WEBP" alt="Business Daily - Real Estate" loading="lazy">
+      </div>
+      <p class="featured-mini-title">Real Estate Feature</p>
+    </a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Creative Business Director · sheedigital</p>
+    <h1 class="hero-headline">
+      Content that<br>
+      <em>persuades</em><br>
+      people to act.
+    </h1>
+    <p class="hero-sub">
+      I train business owners to create and structure content that doesn't just look good — it converts browsers into buyers, followers into clients.
+    </p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">Book a Training</a>
+      <a href="#framework" class="btn-ghost">See the Method</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="manifesto-block">
+      <p class="manifesto-label">The Content Hierarchy</p>
+
+      <div class="manifesto-tier" data-num="1">
+        <p class="tier-badge">Good</p>
+        <p class="tier-line">A high quality video is good.</p>
+      </div>
+      <div class="manifesto-tier" data-num="2">
+        <p class="tier-badge">Better</p>
+        <p class="tier-line">Content that speaks to your frustration is better.</p>
+      </div>
+      <div class="manifesto-tier" data-num="3">
+        <p class="tier-badge">Best</p>
+        <p class="tier-line">Content that persuades you to act — that is the best.</p>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <p class="stat-num">3×</p>
+        <p class="stat-label">Avg. Engagement Lift</p>
+      </div>
+      <div>
+        <p class="stat-num">0</p>
+        <p class="stat-label">Ad Spend Needed</p>
+      </div>
+      <div>
+        <p class="stat-num">100%</p>
+        <p class="stat-label">Organic Strategy</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span>Content That Converts</span><span class="dot">·</span>
+    <span>Zero Ad Spend</span><span class="dot">·</span>
+    <span>Organic Growth</span><span class="dot">·</span>
+    <span>The FOCUS Framework</span><span class="dot">·</span>
+    <span>sheedigital</span><span class="dot">·</span>
+    <span>Tailored Trainings</span><span class="dot">·</span>
+    <span>Business Owners Who Run Their Own Socials</span><span class="dot">·</span>
+    <span>Content That Converts</span><span class="dot">·</span>
+    <span>Zero Ad Spend</span><span class="dot">·</span>
+    <span>Organic Growth</span><span class="dot">·</span>
+    <span>The FOCUS Framework</span><span class="dot">·</span>
+    <span>sheedigital</span><span class="dot">·</span>
+    <span>Tailored Trainings</span><span class="dot">·</span>
+    <span>Business Owners Who Run Their Own Socials</span><span class="dot">·</span>
+  </div>
+</div>
+
+<!-- WHO THIS IS FOR -->
+<section class="for-section" id="for">
+  <div class="reveal">
+    <p class="section-label">Who This Is For</p>
+    <h2 class="section-headline">You're good at your business.<br><em>Now make your content work as hard as you do.</em></h2>
+    <p class="section-body">
+      You're a service-based business owner managing your own social media — and you're tired of posting without seeing real results. You don't need more content. You need content that converts.
+    </p>
+    <a href="#cta" class="btn-primary" style="background:var(--red);color:white;display:inline-block;padding:16px 36px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;">
+      That's Me — Let's Go
+    </a>
+  </div>
+
+  <ul class="pain-list reveal">
+    <li>
+      <span class="pain-icon">📉</span>
+      <div class="pain-text">
+        <strong>Posting consistently but getting silence</strong>
+        You're showing up every day and the algorithm still isn't rewarding you.
+      </div>
+    </li>
+    <li>
+      <span class="pain-icon">🤷🏾‍♀️</span>
+      <div class="pain-text">
+        <strong>Likes but no enquiries</strong>
+        People say they love your content — but nobody's buying.
+      </div>
+    </li>
+    <li>
+      <span class="pain-icon">💸</span>
+      <div class="pain-text">
+        <strong>Spending on ads just to stay visible</strong>
+        You shouldn't need a budget to be discovered organically.
+      </div>
+    </li>
+    <li>
+      <span class="pain-icon">🔁</span>
+      <div class="pain-text">
+        <strong>Copying what competitors do</strong>
+        Following trends that weren't built for your audience or your offer.
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="offer-section" id="offer">
+  <div class="offer-top">
+    <div>
+      <p class="section-label">What You Get</p>
+      <h2 class="section-headline" style="color:white">Tailored training.<br><em style="color:rgba(255,255,255,0.65)">Built around your business.</em></h2>
+    </div>
+    <a href="#cta" class="btn-primary" style="flex-shrink:0">Book Your Session</a>
+  </div>
+
+  <div class="offer-grid">
+    <div class="offer-card reveal">
+      <div class="offer-num">01</div>
+      <p class="offer-title">Content Strategy</p>
+      <p class="offer-desc">A tailored roadmap for what to post, when to post it, and how to structure it so it moves your audience from curious to convinced.</p>
+    </div>
+    <div class="offer-card reveal">
+      <div class="offer-num">02</div>
+      <p class="offer-title">Hook & Persuasion</p>
+      <p class="offer-desc">Learn the psychology behind content that stops the scroll and makes people feel like you're speaking directly to them.</p>
+    </div>
+    <div class="offer-card reveal">
+      <div class="offer-num">03</div>
+      <p class="offer-title">Zero Ad Spend Growth</p>
+      <p class="offer-desc">Proven organic tactics — tested on real clients — that grow your following and generate leads without paying platforms a cent.</p>
+    </div>
+    <div class="offer-card reveal">
+      <div class="offer-num">04</div>
+      <p class="offer-title">Content Systems</p>
+      <p class="offer-desc">Build reusable workflows and calendars so you can stay consistent without burning out or spending hours every week.</p>
+    </div>
+    <div class="offer-card reveal">
+      <div class="offer-num">05</div>
+      <p class="offer-title">Platform Mastery</p>
+      <p class="offer-desc">Whether it's Instagram, TikTok, LinkedIn, or Facebook — learn how to adapt your message to each platform's unique dynamic.</p>
+    </div>
+    <div class="offer-card reveal">
+      <div class="offer-num">06</div>
+      <p class="offer-title">Sales-First Content</p>
+      <p class="offer-desc">Every post, caption, and story designed with one goal: to turn your audience into paying clients — without feeling salesy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOCUS FRAMEWORK -->
+<section class="framework-section" id="framework">
+  <div class="framework-inner">
+    <div class="framework-header reveal">
+      <div>
+        <p class="section-label">The Method</p>
+        <h2 class="section-headline">The <em>FOCUS</em><br>Framework</h2>
+        <p style="font-size:15px;color:#666;line-height:1.8;font-weight:300;margin-top:16px;">A proprietary 5-step methodology for building content that consistently attracts, nurtures, and converts — without paid ads.</p>
+      </div>
+      <div class="focus-letters">
+        <span class="focus-letter active">F</span>
+        <span class="focus-letter">O</span>
+        <span class="focus-letter">C</span>
+        <span class="focus-letter">U</span>
+        <span class="focus-letter">S</span>
+      </div>
+    </div>
+
+    <div class="focus-steps reveal">
+      <div class="focus-step">
+        <div class="step-letter">F</div>
+        <div class="step-content">
+          <p class="step-word">Find Your People</p>
+          <p class="step-desc">Identify exactly who you're speaking to, what they desperately want, and what stops them from buying.</p>
+        </div>
+      </div>
+      <div class="focus-step">
+        <div class="step-letter">O</div>
+        <div class="step-content">
+          <p class="step-word">Own Your Story</p>
+          <p class="step-desc">Position your brand around real results and documented outcomes — not borrowed credibility.</p>
+        </div>
+      </div>
+      <div class="focus-step">
+        <div class="step-letter">C</div>
+        <div class="step-content">
+          <p class="step-word">Craft the Hook</p>
+          <p class="step-desc">Build scroll-stopping opens that speak directly to your audience's frustration before you say anything else.</p>
+        </div>
+      </div>
+      <div class="focus-step">
+        <div class="step-letter">U</div>
+        <div class="step-content">
+          <p class="step-word">Unlock the Value</p>
+          <p class="step-desc">Deliver content that educates, builds trust, and makes your audience feel understood — not sold to.</p>
+        </div>
+      </div>
+      <div class="focus-step">
+        <div class="step-letter">S</div>
+        <div class="step-content">
+          <p class="step-word">Sell Without Selling</p>
+          <p class="step-desc">Deploy the Give / Keep / Sell model to move warm audiences into action — organically and naturally.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof-section" id="results">
+  <div class="proof-header reveal">
+    <p class="section-label" style="text-align:center;display:block;margin-bottom:12px">Real Results</p>
+    <h2 class="section-headline" style="text-align:center">Business owners who stopped<br><em>posting and started converting.</em></h2>
+  </div>
+
+  <div class="proof-grid">
+    <div class="proof-card reveal">
+      <div class="proof-result">Foot Traffic ↑</div>
+      <div class="proof-quote-mark">"</div>
+      <p class="proof-text">We went from posting randomly to having a strategy. Within 6 weeks, people were walking into the shop saying they found us on Instagram.</p>
+      <p class="proof-name">Dubois Party Shop</p>
+      <p class="proof-role">Retail & Events · Nairobi</p>
+    </div>
+    <div class="proof-card reveal">
+      <div class="proof-result">10K in 60 Days</div>
+      <div class="proof-quote-mark">"</div>
+      <p class="proof-text">The house-hunting content series built a community from zero. People weren't just following — they were messaging, sharing, and referring friends.</p>
+      <p class="proof-name">Organic Growth Case</p>
+      <p class="proof-role">Personal Brand · Content Series</p>
+    </div>
+    <div class="proof-card reveal">
+      <div class="proof-result">NGO Visibility</div>
+      <div class="proof-quote-mark">"</div>
+      <p class="proof-text">As a startup NGO with no ad budget, we needed organic reach. The content strategy Elana built made us look credible and got us noticed by funders.</p>
+      <p class="proof-name">NGO Startup</p>
+      <p class="proof-role">Social Impact · East Africa</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED ARTICLES -->
+<section class="articles-section" id="articles">
+  <div class="articles-header">
+    <p class="section-label">Media & Credibility</p>
+    <h2 class="section-headline">Featured on <em>Business Daily</em></h2>
+    <p class="section-body">Real case studies, real results. See how I've helped service-based businesses scale with organic content strategy.</p>
+  </div>
+
+  <div class="carousel-container">
+    <div class="carousel-wrapper">
+      <div class="carousel-track" id="carouselTrack">
+        <!-- Article 1 -->
+        <div class="carousel-slide">
+          <div class="slide-image">
+            <img src="assets/images/newsarticle/temp_image_7D8E00B2-B2AF-4CC6-9110-AD3DE3513295.WEBP" alt="Business Daily - House Hunting Article" loading="lazy">
+          </div>
+          <div class="slide-content">
+            <span class="slide-badge">Business Daily</span>
+            <h3 class="slide-title">House Hunting: Content Strategy Case Study</h3>
+            <p class="slide-description">How we built a community of serious house hunters through targeted content series, turning social followers into qualified leads without paid ads.</p>
+            <div class="slide-meta">
+              <span>Featured 2025</span>
+              <span>Real Estate Strategy</span>
+              <span>Organic Growth</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Article 2 -->
+        <div class="carousel-slide">
+          <div class="slide-image">
+            <img src="assets/images/newsarticle/temp_image_BB32CB17-E199-4DF8-A853-674D2B16F6A6.WEBP" alt="Business Daily - Real Estate Strategy" loading="lazy">
+          </div>
+          <div class="slide-content">
+            <span class="slide-badge">Business Daily</span>
+            <h3 class="slide-title">Real Estate Agent Transformation</h3>
+            <p class="slide-description">From posting randomly to executing a sophisticated content strategy. Learn how property agents are ditching expensive traditional marketing for organic social media growth.</p>
+            <div class="slide-meta">
+              <span>Featured 2025</span>
+              <span>Service Business</span>
+              <span>Lead Generation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Article 3 -->
+        <div class="carousel-slide">
+          <div class="slide-image">
+            <img src="assets/images/newsarticle/temp_image_7D8E00B2-B2AF-4CC6-9110-AD3DE3513295.WEBP" alt="Business Daily - WhatsApp Groups Strategy" loading="lazy">
+          </div>
+          <div class="slide-content">
+            <span class="slide-badge">Business Daily</span>
+            <h3 class="slide-title">Beyond Traditional Agents: Digital Strategy</h3>
+            <p class="slide-description">Why house hunters are turning to WhatsApp groups and content communities instead of expensive agents. The future of real estate starts with authentic storytelling.</p>
+            <div class="slide-meta">
+              <span>Featured 2025</span>
+              <span>Community Strategy</span>
+              <span>Digital Trends</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="carousel-dots" id="carouselDots"></div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" id="prevBtn" aria-label="Previous slide">←</button>
+        <button class="carousel-btn" id="nextBtn" aria-label="Next slide">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <p class="cta-tag">Ready to stop guessing?</p>
+  <h2 class="cta-headline">
+    Your content should be<br>
+    <em>closing for you.</em>
+  </h2>
+  <p class="cta-sub">
+    Book a tailored training session and learn exactly how to create content that turns your audience into clients — no ad spend required.
+  </p>
+  <div class="cta-actions">
+    <a href="https://wa.me/254723556455?text=Hi%20Shee!%20I%20would%20love%20to%20book%20a%20training%20session." class="cta-btn cta-btn-wa" target="_blank" rel="noopener">Book via WhatsApp</a>
+    <a href="mailto:hello.sheesdigital@gmail.com" class="cta-btn cta-btn-email">Book via Email</a>
+  </div>
+  <p class="cta-fine">Fully tailored to your business</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">sheedigital</span>
+  <ul class="footer-links">
+    <li><a href="#for">Who It's For</a></li>
+    <li><a href="#framework">The Framework</a></li>
+    <li><a href="#articles">Featured</a></li>
+    <li><a href="#cta">Work With Me</a></li>
+  </ul>
+  <span class="footer-copy">© 2025 sheedigital</span>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  (function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      ring.style.width = '52px';
+      ring.style.height = '52px';
+      ring.style.opacity = '0.8';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+      ring.style.opacity = '0.5';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  reveals.forEach(r => observer.observe(r));
+
+  // FOCUS letters hover
+  const focusLetters = document.querySelectorAll('.focus-letter');
+  const focusSteps = document.querySelectorAll('.focus-step');
+
+  focusSteps.forEach((step, i) => {
+    step.addEventListener('mouseenter', () => {
+      focusLetters.forEach(l => l.classList.remove('active'));
+      focusLetters[i].classList.add('active');
+    });
+  });
+
+  // CAROUSEL FUNCTIONALITY
+  const carouselTrack = document.getElementById('carouselTrack');
+  const slides = document.querySelectorAll('.carousel-slide');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dotsContainer = document.getElementById('carouselDots');
+  
+  let currentSlide = 0;
+  const totalSlides = slides.length;
+
+  // Create dots
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goToSlide(i));
+    dotsContainer.appendChild(dot);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+
+  function updateCarousel() {
+    carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
+    });
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateCarousel();
+  }
+
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateCarousel();
+  }
+
+  function goToSlide(n) {
+    currentSlide = n;
+    updateCarousel();
+  }
+
+  prevBtn.addEventListener('click', prevSlide);
+  nextBtn.addEventListener('click', nextSlide);
+
+  // Auto-advance carousel every 8 seconds
+  setInterval(nextSlide, 8000);
+
+</script>
+</body>
+</html>
